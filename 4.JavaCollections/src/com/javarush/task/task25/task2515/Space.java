@@ -84,9 +84,8 @@ public class Space {
      * Двигаем все объекты игры
      */
     public void moveAllItems() {
-        //нужно получить список всех игрвых объектов и у каждого вызвать метод move().
-        for (BaseObject temp : getAllItems()) {
-            temp.move();
+        for (BaseObject object : getAllItems()) {
+            object.move();
         }
     }
 
@@ -94,21 +93,17 @@ public class Space {
      * Метод возвращает общий список, который содержит все объекты игры
      */
     public List<BaseObject> getAllItems() {
-        //нужно создать новый список и положить в него все игровые объекты.
-        ArrayList<BaseObject> allItems = new ArrayList<>();
-        allItems.add(ship);
-        allItems.addAll(bombs);
-        allItems.addAll(ufos);
-        allItems.addAll(rockets);
-        return allItems;
+        ArrayList<BaseObject> list = new ArrayList<BaseObject>(ufos);
+        list.add(ship);
+        list.addAll(bombs);
+        list.addAll(rockets);
+        return list;
     }
 
     /**
      * Создаем новый НЛО. 1 раз на 10 вызовов.
      */
     public void createUfo() {
-        //тут нужно создать новый НЛО.
-        //1 раз за 10 вызовов метода.
         if (ufos.size() > 0) return;
 
         int random10 = (int) (Math.random() * 10);
@@ -125,11 +120,10 @@ public class Space {
      * б) падение ниже края игрового поля (бомба умирает)
      */
     public void checkBombs() {
-        //тут нужно проверить все возможные столкновения для каждой бомбы.
         for (Bomb bomb : bombs) {
-            if (bomb.isIntersect(ship)) {
-                bomb.die();
+            if (ship.isIntersect(bomb)) {
                 ship.die();
+                bomb.die();
             }
 
             if (bomb.getY() >= height)
@@ -182,7 +176,26 @@ public class Space {
      * б) отрисовываем все объекты на холст.
      */
     public void draw(Canvas canvas) {
-        //тут нужно отрисовать все объекты игры
+        //draw game
+        for (int i = 0; i < width + 2; i++) {
+            for (int j = 0; j < height + 2; j++) {
+                canvas.setPoint(i, j, '.');
+            }
+        }
+
+        for (int i = 0; i < width + 2; i++) {
+            canvas.setPoint(i, 0, '-');
+            canvas.setPoint(i, height + 1, '-');
+        }
+
+        for (int i = 0; i < height + 2; i++) {
+            canvas.setPoint(0, i, '|');
+            canvas.setPoint(width + 1, i, '|');
+        }
+
+        for (BaseObject object : getAllItems()) {
+            object.draw(canvas);
+        }
     }
 
 
