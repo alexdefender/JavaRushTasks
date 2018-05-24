@@ -43,4 +43,28 @@ public class Canvas {
             }
         }
     }
+
+    // будет очищать матрицу, чтобы на ней снова можно было рисовать
+    public void clear() {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                matrix[i][j] = ' ';
+            }
+        }
+    }
+
+    // отрисовывает матрицу на экран
+    public void print() {
+        System.out.println();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                System.out.print(" ");
+                System.out.print(matrix[i][j]);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+    }
 }
