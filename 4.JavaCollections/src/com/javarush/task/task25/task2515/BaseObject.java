@@ -40,4 +40,25 @@ public abstract class BaseObject {
     public void setRadius(double radius) {
         this.radius = radius;
     }
+
+    public static void draw() {
+    }
+
+    public static void move() {
+    }
+
+    // объект умирает
+    public void die() {
+        isAlive = false;
+    }
+
+    // метод определяет попала бомба в корабль или ракета в НЛО
+    public boolean isIntersect(BaseObject o) {
+        double dx = x - o.x;
+        double dy = y - o.y;
+        double destination = Math.sqrt(dx * dx + dy * dy);
+        double destination2 = Math.max(radius, o.radius);
+        return destination <= destination2;
+    }
+
 }
